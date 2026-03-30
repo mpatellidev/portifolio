@@ -294,6 +294,40 @@ h1 {
 	background: #1a1a1a;
 }
 
+.toast {
+	position: fixed;
+	left: 0;
+	top: 0;
+	transform: translate(-50%, 10px);
+	background: rgba(17, 17, 17, 0.95);
+	color: var(--text);
+	border: 1px solid var(--line);
+	border-radius: 12px;
+	padding: 12px 18px;
+	box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
+	opacity: 0;
+	pointer-events: none;
+	transition: opacity 0.2s ease, transform 0.2s ease;
+	z-index: 10;
+	max-width: min(90vw, 360px);
+}
+
+.toast--show {
+	opacity: 1;
+	transform: translate(-50%, 0);
+	pointer-events: auto;
+}
+
+.toast--above {
+	transform: translate(-50%, -10px);
+}
+
+.toast-message {
+	display: block;
+	font-size: 14px;
+	letter-spacing: 0.2px;
+}
+
 @media (max-width: 700px) {
 	.hero {
 		padding-bottom: 80px;
@@ -306,4 +340,5 @@ h1 {
 	.about h2 {
 		text-align: center;
 	}
+
 }

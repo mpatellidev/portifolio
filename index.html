@@ -31,16 +31,40 @@
 					<p class="tagline">&lt;/data science &amp; web dev&gt;</p>
 
 					<div class="socials" aria-label="Redes sociais">
-						<a class="icon-button" href="#" aria-label="GitHub">
+						<a
+							class="icon-button"
+							href="https://github.com/mpatellidev"
+							target="_blank"
+							rel="noopener noreferrer"
+							aria-label="GitHub"
+						>
 							<i class="fa-brands fa-github"></i>
 						</a>
-						<a class="icon-button" href="#" aria-label="LinkedIn">
+						<a
+							class="icon-button"
+							href="https://www.linkedin.com/in/murilopatelli/"
+							target="_blank"
+							rel="noopener noreferrer"
+							aria-label="LinkedIn"
+						>
 							<i class="fa-brands fa-linkedin-in"></i>
 						</a>
-						<a class="icon-button" href="#" aria-label="Email">
+						<a
+							class="icon-button"
+							href="#"
+							aria-label="Email"
+							data-toast
+							data-message="mpatellidev@gmai.com"
+						>
 							<i class="fa-solid fa-envelope"></i>
 						</a>
-						<a class="icon-button" href="#" aria-label="WhatsApp">
+						<a
+							class="icon-button"
+							href="#"
+							aria-label="WhatsApp"
+							data-toast
+							data-message="+55 (11) 91702-7623"
+						>
 							<i class="fa-brands fa-whatsapp"></i>
 						</a>
 					</div>
@@ -214,5 +238,69 @@
 				<div class="pagination">1/1</div>
 			</section>
 		</main>
+		<div class="toast" id="toast" role="status" aria-live="polite">
+			<span class="toast-message" id="toastMessage"></span>
+		</div>
+		<script>
+			const toast = document.getElementById("toast");
+			const toastMessage = document.getElementById("toastMessage");
+			const toastTriggers = document.querySelectorAll("[data-toast]");
+			let toastTimeout = null;
+
+			const showToast = (message, target) => {
+				if (!toast || !toastMessage) {
+					return;
+				}
+
+				if (toast.classList.contains("toast--show") && toastMessage.textContent === message) {
+					toast.classList.remove("toast--show");
+					return;
+				}
+
+				toastMessage.textContent = message;
+				toast.classList.remove("toast--above");
+				toast.classList.add("toast--show");
+
+				if (target) {
+					const rect = target.getBoundingClientRect();
+					const spacing = 12;
+					const toastWidth = toast.offsetWidth;
+					const toastHeight = toast.offsetHeight;
+					let left = rect.left + rect.width / 2;
+					let top = rect.bottom + spacing;
+
+					const minLeft = 12 + toastWidth / 2;
+					const maxLeft = window.innerWidth - 12 - toastWidth / 2;
+					left = Math.min(Math.max(left, minLeft), maxLeft);
+
+					if (top + toastHeight > window.innerHeight - 12) {
+						top = rect.top - toastHeight - spacing;
+						toast.classList.add("toast--above");
+					}
+
+					toast.style.left = `${left}px`;
+					toast.style.top = `${top}px`;
+				}
+
+				if (toastTimeout) {
+					clearTimeout(toastTimeout);
+				}
+
+				toastTimeout = setTimeout(() => {
+					toast.classList.remove("toast--show");
+				}, 3200);
+			};
+
+			toastTriggers.forEach((trigger) => {
+				trigger.addEventListener("click", (event) => {
+					event.preventDefault();
+					showToast(trigger.dataset.message || "", trigger);
+				});
+			});
+
+			toast?.addEventListener("click", () => {
+				toast.classList.remove("toast--show");
+			});
+		</script>
 	</body>
 </html>
